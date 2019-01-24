@@ -157,7 +157,7 @@ module "appGw" {
       name                = "http-gateway"
       ruleType            = "PathBasedRouting"
       httpListener        = "${var.product}-http-listener-gateway"
-      urlPathMap          = "http-u rl-path-map-gateway"
+      urlPathMap          = "http-url-path-map-gateway"
     },
     {
       name                = "https-gateway"
