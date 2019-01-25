@@ -152,25 +152,6 @@ module "appGw" {
     }
   ]
 
-  requestRoutingRulesPathBased = [
-  ]
-
-  urlPathMaps = [
-    {
-      name                       = ""
-      defaultBackendAddressPool  = ""
-      defaultBackendHttpSettings = ""
-      pathRules                  = [
-        {
-          name                = ""
-          paths               = [""]
-          backendAddressPool  = ""
-          backendHttpSettings = ""
-        }
-      ]
-    }
-  ]
-
   probes = [
     {
       name                                = "http-probe-gateway"
