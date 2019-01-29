@@ -152,21 +152,6 @@ module "appGw" {
     }
   ]
 
-  requestRoutingRulesPathBased = [
-    {
-      name                = "http-gateway"
-      ruleType            = "PathBasedRouting"
-      httpListener        = "${var.product}-http-listener-gateway"
-      urlPathMap          = "http-url-path-map-gateway"
-    },
-    {
-      name                = "https-gateway"
-      ruleType            = "PathBasedRouting"
-      httpListener        = "${var.product}-https-listener-gateway"
-      urlPathMap          = "https-url-path-map-gateway"
-    }
-  ]
-
   urlPathMaps = [
     {
       name                       = "http-url-path-map-gateway"
