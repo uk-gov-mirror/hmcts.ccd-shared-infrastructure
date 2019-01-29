@@ -152,6 +152,9 @@ module "appGw" {
     }
   ]
 
+  requestRoutingRulesPathBased = [
+  ]
+
   urlPathMaps = [
     {
       name                       = "http-url-path-map-gateway"
