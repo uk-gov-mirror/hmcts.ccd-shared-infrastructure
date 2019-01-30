@@ -11,7 +11,7 @@ data "azurerm_subnet" "ase_subnet" {
 }
 
 module "appGw" {
-  source            = "git@github.com:hmcts/cnp-module-waf?ref=RDM-3272_pbrr"
+  source            = "git@github.com:hmcts/cnp-module-waf?ref=RDM-3272_make_pbrr_optional"
   env               = "${var.env}"
   subscription      = "${var.subscription}"
   location          = "${var.location}"
