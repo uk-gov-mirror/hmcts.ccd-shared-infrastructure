@@ -11,7 +11,7 @@ data "azurerm_subnet" "ase_subnet" {
 }
 
 module "appGw" {
-  source            = "git@github.com:hmcts/cnp-module-waf?ref=RDM-3272_make_pbrr_optional"
+  source            = "git@github.com:hmcts/cnp-module-waf?ref=RDM-3272_pbrr"
   env               = "${var.env}"
   subscription      = "${var.subscription}"
   location          = "${var.location}"
@@ -153,12 +153,6 @@ module "appGw" {
       backendAddressPool  = "${var.product}-${var.env}-backend-pool"
       backendHttpSettings = "backend-443-nocookies-www"
     }
-  ]
-
-  requestRoutingRulesPathBased = [
-  ]
-
-  urlPathMaps = [
   ]
 
   probes = [
