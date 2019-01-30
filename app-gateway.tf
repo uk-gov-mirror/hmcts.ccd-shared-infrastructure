@@ -138,20 +138,47 @@ module "appGw" {
   ]
 
   # Request routing rules
-  requestRoutingRules = [
+  requestRoutingRulesPathBased = [
     {
-      name                = "http-www"
-      ruleType            = "Basic"
-      httpListener        = "${var.product}-http-listener-www"
-      backendAddressPool  = "${var.product}-${var.env}-backend-pool"
-      backendHttpSettings = "backend-80-nocookies-www"
+      name                = "http-gateway"
+      ruleType            = "PathBasedRouting"
+      httpListener        = "${var.product}-http-listener-gateway"
+      urlPathMap          = "http-url-path-map-gateway"
     },
     {
-      name                = "https-www"
-      ruleType            = "Basic"
-      httpListener        = "${var.product}-https-listener-www"
-      backendAddressPool  = "${var.product}-${var.env}-backend-pool"
-      backendHttpSettings = "backend-443-nocookies-www"
+      name                = "https-gateway"
+      ruleType            = "PathBasedRouting"
+      httpListener        = "${var.product}-https-listener-gateway"
+      urlPathMap          = "https-url-path-map-gateway"
+    }
+  ]
+
+  urlPathMaps = [
+    {
+      name                       = "http-url-path-map-gateway"
+      defaultBackendAddressPool  = "${var.product}-${var.env}-backend-pool"
+      defaultBackendHttpSettings = "backend-80-nocookies-gateway"
+      pathRules                  = [
+        {
+          name                = "http-url-path-map-gateway-rule-palo-alto"
+          paths               = ["/documents"]
+          backendAddressPool  = "${var.product}-${var.env}-palo-alto"
+          backendHttpSettings = "backend-80-nocookies-gateway"
+        }
+      ]
+    },
+    {
+      name                       = "https-url-path-map-gateway"
+      defaultBackendAddressPool  = "${var.product}-${var.env}-backend-pool"
+      defaultBackendHttpSettings = "backend-80-nocookies-gateway"
+      pathRules                  = [
+        {
+          name                = "https-url-path-map-gateway-rule-palo-alto"
+          paths               = ["/documents"]
+          backendAddressPool  = "${var.product}-${var.env}-palo-alto"
+          backendHttpSettings = "backend-80-nocookies-gateway"
+        }
+      ]
     }
   ]
 
