@@ -75,10 +75,7 @@ module "appGw" {
   backendAddressPools = [
     {
       name = "${var.product}-${var.env}-palo-alto"
-      backendAddresses = [{
-        ipAddress = "${var.ilbIp}"
-      }
-      ]
+      backendAddresses = "${module.palo_alto.untrusted_ips_fqdn}"
     },
     {
       name = "${var.product}-${var.env}-backend-pool"
