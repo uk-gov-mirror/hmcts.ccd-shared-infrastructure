@@ -8,5 +8,5 @@ module "adf" {
   output_storage_account_name = "${var.product}shared${var.env}"
   input_blob_container = "${var.product}-definition-store-api-imports-${var.env}"
   output_blob_container = "incremental-backup"
-  depends_on="${azurerm_key_vault_secret.storageaccount_id}"
+  depends_on= ["azurerm_key_vault_secret.storageaccount_id"]
 }
