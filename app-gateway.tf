@@ -1,6 +1,6 @@
 data "azurerm_key_vault_secret" "cert" {
   name      = "${var.external_cert_name}"
-  vault_uri = "${var.external_cert_vault_uri}"
+  vault_uri = "https://infra-vault-${var.subscription}.vault.azure.net/"
 }
 
 

@@ -10,9 +10,13 @@ variable "env" {
   description = "The deployment environment (sandbox, aat, prod etc..)"
 }
 
-variable "subscription" {}
+variable "subscription" {
+  type = "string"
+}
 
-variable "ilbIp" {}
+variable "ilbIp" {
+  type = "string"
+}
 
 variable "location" {
   type    = "string"
@@ -60,10 +64,17 @@ variable "destroy_me" {
   default     = "No"
 }
 
-variable "external_cert_vault_uri" {}
-variable "external_cert_name" {}
-variable "external_hostname_gateway" {}
-variable "external_hostname_www" {}
+variable "external_cert_name" {
+  type = "string"
+}
+
+variable "external_hostname_gateway" {
+  type = "string"
+}
+
+variable "external_hostname_www" {
+  type = "string"
+}
 
 // http parameters
 variable "health_check_interval" {
@@ -77,4 +88,3 @@ variable "health_check_timeout" {
 variable "unhealthy_threshold" {
   default = "5"
 }
-
