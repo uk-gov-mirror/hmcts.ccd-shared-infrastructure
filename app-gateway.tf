@@ -11,7 +11,7 @@ data "azurerm_subnet" "ase_subnet" {
 }
 
 module "appGw" {
-  source            = "git@github.com:hmcts/cnp-module-waf?ref=RDM-3272_make_pbrr_optional"
+  source            = "git@github.com:hmcts/cnp-module-waf?ref=ccd/CHG0033576"
   env               = "${var.env}"
   subscription      = "${var.subscription}"
   location          = "${var.location}"
@@ -99,17 +99,17 @@ module "appGw" {
       PickHostNameFromBackendAddress = "False"
       HostName                       = "${var.external_hostname_gateway}"
     },
-    {
-      name                           = "backend-443-nocookies-gateway"
-      port                           = 443
-      Protocol                       = "Https"
-      AuthenticationCertificates     = "ilbCert"
-      CookieBasedAffinity            = "Disabled"
-      probeEnabled                   = "True"
-      probe                          = "https-probe-gateway"
-      PickHostNameFromBackendAddress = "False"
-      HostName                       = "${var.external_hostname_gateway}"
-    },
+//    {
+//      name                           = "backend-443-nocookies-gateway"
+//      port                           = 443
+//      Protocol                       = "Https"
+//      AuthenticationCertificates     = "ilbCert"
+//      CookieBasedAffinity            = "Disabled"
+//      probeEnabled                   = "True"
+//      probe                          = "https-probe-gateway"
+//      PickHostNameFromBackendAddress = "False"
+//      HostName                       = "${var.external_hostname_gateway}"
+//    },
     {
       name                           = "backend-80-nocookies-www"
       port                           = 80
@@ -152,6 +152,50 @@ module "appGw" {
     }
   ]
 
+  requestRoutingRulesPathBased = [
+    {
+      name                = "http-gateway"
+      ruleType            = "PathBasedRouting"
+      httpListener        = "${var.product}-http-listener-gateway"
+      urlPathMap          = "http-url-path-map-gateway"
+    },
+    {
+      name                = "https-gateway"
+      ruleType            = "PathBasedRouting"
+      httpListener        = "${var.product}-https-listener-gateway"
+      urlPathMap          = "https-url-path-map-gateway"
+    }
+  ]
+
+  urlPathMaps = [
+    {
+      name                       = "http-url-path-map-gateway"
+      defaultBackendAddressPool  = "${var.product}-${var.env}-backend-pool"
+      defaultBackendHttpSettings = "backend-80-nocookies-gateway"
+      pathRules                  = [
+        {
+          name                = "http-url-path-map-gateway-rule-palo-alto"
+          paths               = ["/documents"]
+          backendAddressPool  = "${var.product}-${var.env}-palo-alto"
+          backendHttpSettings = "backend-80-nocookies-gateway"
+        }
+      ]
+    },
+    {
+      name                       = "https-url-path-map-gateway"
+      defaultBackendAddressPool  = "${var.product}-${var.env}-backend-pool"
+      defaultBackendHttpSettings = "backend-80-nocookies-gateway"
+      pathRules                  = [
+        {
+          name                = "https-url-path-map-gateway-rule-palo-alto"
+          paths               = ["/documents"]
+          backendAddressPool  = "${var.product}-${var.env}-palo-alto"
+          backendHttpSettings = "backend-80-nocookies-gateway"
+        }
+      ]
+    }
+  ]
+
   probes = [
     {
       name                                = "http-probe-gateway"
@@ -165,18 +209,18 @@ module "appGw" {
       host                                = "${var.external_hostname_gateway}"
       healthyStatusCodes                  = "200-404"                  // MS returns 400 on /, allowing more codes in case they change it
     },
-    {
-      name                                = "https-probe-gateway"
-      protocol                            = "Https"
-      path                                = "/"
-      interval                            = "${var.health_check_interval}"
-      timeout                             = "${var.health_check_timeout}"
-      unhealthyThreshold                  = "${var.unhealthy_threshold}"
-      pickHostNameFromBackendHttpSettings = "false"
-      backendHttpSettings                 = "backend-443-nocookies-gateway"
-      host                                = "${var.external_hostname_gateway}"
-      healthyStatusCodes                  = "200-399"
-    },
+//    {
+//      name                                = "https-probe-gateway"
+//      protocol                            = "Https"
+//      path                                = "/"
+//      interval                            = "${var.health_check_interval}"
+//      timeout                             = "${var.health_check_timeout}"
+//      unhealthyThreshold                  = "${var.unhealthy_threshold}"
+//      pickHostNameFromBackendHttpSettings = "false"
+//      backendHttpSettings                 = "backend-443-nocookies-gateway"
+//      host                                = "${var.external_hostname_gateway}"
+//      healthyStatusCodes                  = "200-399"
+//    },
     {
       name                                = "http-probe-www"
       protocol                            = "Http"
