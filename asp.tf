@@ -1,4 +1,5 @@
 module "appServicePlan" {
+  count = "${var.env != "sandbox" ? 1: 0}"
   source = "git@github.com:hmcts/cnp-module-app-service-plan?ref=master"
   location = "${var.location}"
   env = "${var.env}"
