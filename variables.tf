@@ -88,3 +88,8 @@ variable "health_check_timeout" {
 variable "unhealthy_threshold" {
   default = "5"
 }
+
+variable enable_app_service_plan {
+    type = "string"
+    default = "1"
+}
