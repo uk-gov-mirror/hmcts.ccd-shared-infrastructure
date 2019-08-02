@@ -1,12 +1,12 @@
 //SHARED VARIABLES
 variable "product" {
-  type = "string"
+  type        = "string"
   description = "The name of your application"
-  default = "ccd"
+  default     = "ccd"
 }
 
 variable "env" {
-  type = "string"
+  type        = "string"
   description = "The deployment environment (sandbox, aat, prod etc..)"
 }
 
@@ -19,9 +19,9 @@ variable "ilbIp" {
 }
 
 variable "location" {
-  type    = "string"
+  type        = "string"
   description = "The location where you would like to deploy your infrastructure"
-  default = "UK South"
+  default     = "UK South"
 }
 
 variable "tenant_id" {
@@ -32,20 +32,17 @@ variable "jenkins_AAD_objectId" {
   description = "(Required) The Azure AD object ID of a user, service principal or security group in the Azure Active Directory tenant for the vault. The object ID must be unique for the list of access policies."
 }
 
-
 // ASP Specific Variables
 variable "asp_capacity" {
   type    = "string"
   default = "2"
 }
 
-
 variable "application_type" {
-  type = "string"
-  default = "Web"
+  type        = "string"
+  default     = "Web"
   description = "Type of Application Insights (Web/Other)"
 }
-
 
 // TAG SPECIFIC VARIABLES
 variable "common_tags" {
@@ -89,7 +86,6 @@ variable "unhealthy_threshold" {
   default = "5"
 }
 
-variable enable_app_service_plan {
-    type = "string"
-    default = "1"
+variable "aspEnabled" {
+  default = "false"
 }
