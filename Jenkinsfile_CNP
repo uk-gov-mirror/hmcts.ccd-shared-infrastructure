@@ -1,6 +1,6 @@
 #!groovy
 //noinspection GroovyUnusedAssignment
-@Library("Infrastructure") _
+@Library("Infrastructure@ethosldata") _
 
 withInfraPipeline('ccd') {
     onMaster {
@@ -11,5 +11,9 @@ withInfraPipeline('ccd') {
     }
     onPR {
         enableSlackNotifications('#ccd-pr-builds')
+    }
+    onEthosldata {
+        env.TF_STATE_STORAGE_TEMPLATE = 'statestore'
+        env.TF_STATE_CONTAINER_TEMPLATE = 'statectr'
     }
 }
